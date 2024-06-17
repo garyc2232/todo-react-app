@@ -4,7 +4,7 @@ import {
   selectIsAsc,
   setIsAsc,
 } from '../../features/sortOption/sortOptionSlice';
-import { SortOption } from '../../types/sortOption.type';
+import { SortDirection } from '../../types/sortOption.type';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 export const SortDirectionBtn = () => {
@@ -12,8 +12,8 @@ export const SortDirectionBtn = () => {
   const dispatch = useAppDispatch();
 
   const handleOptionChange = (
-    event: React.MouseEvent<HTMLElement>,
-    option: SortOption,
+    _: React.MouseEvent<HTMLElement>,
+    option: SortDirection,
   ) => {
     dispatch(setIsAsc(option === 'asc'));
   };
@@ -25,10 +25,10 @@ export const SortDirectionBtn = () => {
       exclusive
       onChange={handleOptionChange}
     >
-      <ToggleButton value={'desc'} key={'desc'}>
+      <ToggleButton value={'asc'} key={'asc'} size="small">
         <ArrowDropUpIcon />
       </ToggleButton>
-      <ToggleButton value={'asc'} key={'asc'}>
+      <ToggleButton value={'desc'} key={'asc'} size="small">
         <ArrowDropDownIcon />
       </ToggleButton>
     </ToggleButtonGroup>

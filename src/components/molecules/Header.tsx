@@ -13,26 +13,51 @@ export const Header = () => {
   const handleOnCreateTodo = () => {
     dispatch(openModal({ Body: <CreateTodoForm /> }));
   };
+
+  const AddTodoBtn = () => {
+    return (
+      <Button onClick={() => handleOnCreateTodo()}>
+        <AddCircleIcon />
+      </Button>
+    );
+  };
   return (
     <Grid
       container
-      direction={isMobileView ? 'column' : 'row'}
+      direction={'row'}
       alignItems="center"
       justifyContent="center"
-      spacing={2}
     >
-      <Grid item xs={4}>
+      <Grid item xs={5}>
         <SortByBtn />
       </Grid>
-      <Grid item xs={2}></Grid>
-      <Grid item xs={4}>
-        <SortDirectionBtn />
-      </Grid>
-      <Grid item xs={2}>
-        <Button onClick={() => handleOnCreateTodo()}>
-          <AddCircleIcon />
-        </Button>
-      </Grid>
+      {isMobileView && (
+        <Grid item xs={7}>
+          <Grid
+            container
+            direction={'column'}
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Grid item xs={6}>
+              <SortDirectionBtn />
+            </Grid>
+            <Grid item xs={6}>
+              <AddTodoBtn />
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
+      {!isMobileView && (
+        <>
+          <Grid item xs={5}>
+            <SortDirectionBtn />
+          </Grid>
+          <Grid item xs={2}>
+            <AddTodoBtn />
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };

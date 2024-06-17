@@ -65,6 +65,7 @@ const Home = () => {
           <CustomDrawer
             anchor={'left'}
             open={isDrawerOpen}
+            keepMounted
             onClose={() => setIsDrawerOpen(false)}
           >
             <LeftPanel />

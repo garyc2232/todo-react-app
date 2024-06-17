@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { createTodoFormSchema } from '../../utils/validationUtil';
-import { selectError, selectIsLoading } from '../../features/auth/authSlice';
+import { selectError } from '../../features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../features/store';
 import { closeModal } from '../../features/modal/modalSlice';
 import { useState } from 'react';
@@ -27,44 +27,40 @@ const initialValues: TodoCreateDto = {
 
 export const CreateTodoForm = () => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(selectIsLoading);
   const errMessage = useAppSelector(selectError);
   const listId = useAppSelector(selectActiveListId);
   const tags = useAppSelector(selectTags);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const formik = useFormik({
     initialValues,
     validationSchema: createTodoFormSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    validateOnChange: false,
+    validateOnBlur: false,
+    onSubmit: async (values) => {
+      console.log(values, listId);
+
+      if (!listId) return;
+      const result = await dispatch(
+        createTodoAsync({
+          listId,
+          data: {
+            name: values.name,
+            description: values.description,
+            dueDate: values.dueDate,
+            priority: values.priority,
+            tags: values.tags,
+          },
+        }),
+      );
+      if (result) {
+        setSuccessMessage('Create Todo successfully');
+        setTimeout(() => {
+          dispatch(closeModal());
+        }, 1000);
+      }
     },
   });
-
-  const [successMessage, setSuccessMessage] = useState('');
-  const handleSubmit = async (values: TodoCreateDto) => {
-    if (!listId) return;
-    console.log(values, listId);
-    return;
-
-    const result = await dispatch(
-      createTodoAsync({
-        listId,
-        data: {
-          name: values.name,
-          description: values.description,
-          dueDate: values.dueDate,
-          priority: values.priority,
-          tags: values.tags,
-        },
-      }),
-    );
-    if (result) {
-      setSuccessMessage('Register successfully');
-      setTimeout(() => {
-        dispatch(closeModal());
-      }, 1000);
-    }
-  };
 
   return (
     <Container maxWidth="sm">
@@ -76,7 +72,7 @@ export const CreateTodoForm = () => {
               onBlur={formik.handleBlur}
               value={formik.values.name}
               helperText={formik.touched.name && formik.errors.name}
-              error={!!formik.touched.name}
+              error={!!formik.errors.name}
               label="Name"
               name="name"
               fullWidth
@@ -91,7 +87,7 @@ export const CreateTodoForm = () => {
               helperText={
                 formik.touched.description && formik.errors.description
               }
-              error={!!formik.touched.description}
+              error={!!formik.errors.description}
               label="Description"
               name="description"
               rows={4}
@@ -106,7 +102,7 @@ export const CreateTodoForm = () => {
               onBlur={formik.handleBlur}
               value={formik.values.priority}
               helperText={formik.touched.priority && formik.errors.priority}
-              error={!!formik.touched.priority}
+              error={!!formik.errors.priority}
               label="Priority"
               fullWidth
               name="priority"

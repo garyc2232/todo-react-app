@@ -63,7 +63,7 @@ export const authSlice = createSlice({
       .addCase(registerAsync.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(registerAsync.fulfilled, (state, action: PayloadAction<any>) => {
+      .addCase(registerAsync.fulfilled, (state, _) => {
         state.isLoading = false;
         state.error = null;
       })
@@ -84,14 +84,11 @@ export const authSlice = createSlice({
           localStorage.setItem(REFRESH_TOKEN, action.payload.refreshToken);
         },
       )
-      .addCase(
-        refreshJwtAsync.rejected,
-        (state, action: PayloadAction<any>) => {
-          state.isLoading = false;
-          localStorage.removeItem(ACCESS_TOKEN);
-          localStorage.removeItem(REFRESH_TOKEN);
-        },
-      );
+      .addCase(refreshJwtAsync.rejected, (state, _) => {
+        state.isLoading = false;
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
+      });
   },
   selectors: {
     selectUserId: (state) => state.userId,

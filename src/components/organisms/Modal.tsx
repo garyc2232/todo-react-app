@@ -1,14 +1,8 @@
 import { Dialog, DialogContent, Slide } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../features/store';
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { closeModal } from '../../features/modal/modalSlice';
 import { TransitionProps } from '@mui/material/transitions';
-
-type ModalProps = {
-  isOpen: boolean;
-  handleClose: () => void;
-  children: ReactElement;
-};
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {

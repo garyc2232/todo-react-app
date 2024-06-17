@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Todo, TodoCreateDto } from '../../types/todo.type';
-import { fetchTodoAsync } from './todoAction';
+import { createTodoAsync, fetchTodoAsync } from './todoAction';
 import { sortOption } from '../../types/sortOption.type';
 
 type TodoState = {
@@ -21,12 +21,19 @@ export const todoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTodoAsync.pending, (state, action) => {
+      .addCase(fetchTodoAsync.pending, (state, _) => {
         state.isLoading = true;
       })
       .addCase(fetchTodoAsync.fulfilled, (state, action) => {
         state.todos = action.payload;
         state.isLoading = false;
+      })
+      .addCase(createTodoAsync.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(createTodoAsync.fulfilled, (_, __) => {
+        // state.todos = action.payload;
+        // state.isLoading = false;
       });
   },
 });

@@ -5,6 +5,7 @@ import {
   setSortBy,
 } from '../../features/sortOption/sortOptionSlice';
 import { SortOption } from '../../types/sortOption.type';
+import useResponsiveView from '../../utils/customHook/useResponsiveView';
 
 const SORT_OPTIONS: SortOption[] = [
   'id',
@@ -17,9 +18,9 @@ const SORT_OPTIONS: SortOption[] = [
 export const SortByBtn = () => {
   const selectedSortOption = useAppSelector(selectSortBy);
   const dispatch = useAppDispatch();
-
+  const { isMobileView } = useResponsiveView();
   const handleOptionChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _: React.MouseEvent<HTMLElement>,
     option: SortOption,
   ) => {
     dispatch(setSortBy(option));
@@ -31,9 +32,10 @@ export const SortByBtn = () => {
       value={selectedSortOption}
       exclusive
       onChange={handleOptionChange}
+      orientation={isMobileView ? 'vertical' : 'horizontal'}
     >
       {SORT_OPTIONS.map((option) => (
-        <ToggleButton value={option} key={option}>
+        <ToggleButton value={option} key={option} size="small">
           {option}
         </ToggleButton>
       ))}

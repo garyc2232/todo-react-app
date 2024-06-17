@@ -2,8 +2,10 @@ import { Container, Grid } from '@mui/material';
 
 import { Header } from '../components/molecules/Header';
 import TodoPanel from '../components/molecules/TodoPanel';
+import useResponsiveView from '../utils/customHook/useResponsiveView';
 
 const RightPanel = () => {
+  const { isMobileView } = useResponsiveView();
   return (
     <>
       <Grid
@@ -11,9 +13,9 @@ const RightPanel = () => {
         direction="column"
         justifyContent="space-between"
         alignItems="stretch"
-        style={{ height: '90vh' }}
+        style={{ height: '90%' }}
       >
-        <Grid item style={{ flex: '1 1 auto' }}>
+        <Grid item xs={isMobileView ? 4 : 2}>
           <Container
             sx={{
               backgroundColor: 'white',
@@ -29,7 +31,11 @@ const RightPanel = () => {
             <Header />
           </Container>
         </Grid>
-        <Grid item style={{ flex: '6 1 auto' }}>
+        <Grid
+          item
+          xs={isMobileView ? 8 : 10}
+          sx={{ maxWidth: '100%', overflow: 'auto' }}
+        >
           <TodoPanel />
         </Grid>
       </Grid>

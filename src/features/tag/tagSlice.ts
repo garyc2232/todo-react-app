@@ -15,7 +15,6 @@ export const tagSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchTagAsync.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.tags = action.payload;
     });
   },
