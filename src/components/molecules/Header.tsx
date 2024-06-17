@@ -1,5 +1,5 @@
 import { Button, Grid } from '@mui/material';
-import { SortByBtn } from '../atoms/SortByBtn';
+import { SortByComponent } from '../atoms/SortByComponent';
 import { SortDirectionBtn } from '../atoms/SortDirectionBtn';
 import useResponsiveView from '../../utils/customHook/useResponsiveView';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -28,14 +28,14 @@ export const Header = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Grid item xs={5}>
-        <SortByBtn />
+      <Grid item xs={isMobileView ? 12 : 5}>
+        <SortByComponent />
       </Grid>
       {isMobileView && (
-        <Grid item xs={7}>
+        <Grid item xs={12}>
           <Grid
             container
-            direction={'column'}
+            direction={'row'}
             alignItems="center"
             justifyContent="space-between"
           >
