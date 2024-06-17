@@ -1,3 +1,4 @@
+import { Status } from './status.type';
 import { Tag } from './tag.type';
 
 export enum TodoStatus {
@@ -19,3 +20,9 @@ export interface Todo {
 
 export interface TodoCreateDto
   extends Omit<Todo, 'id' | 'createAt' | 'status'> {}
+
+export interface TodoUpdateDto
+  extends Omit<Todo, 'id' | 'tags' | 'createAt' | 'status'> {
+  tags: Tag['id'][];
+  status: Status['id'];
+}

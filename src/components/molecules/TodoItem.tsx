@@ -5,6 +5,9 @@ import { TextLabel } from '../atoms/TextLabel';
 import { formatDate } from '../../utils/dateUtil';
 import { PriorityLabel } from '../atoms/PriorityLabel';
 import useResponsiveView from '../../utils/customHook/useResponsiveView';
+import { useAppDispatch } from '../../features/store';
+import { UpdateTodoForm } from '../organisms/UpdateTodoForm';
+import { openModal } from '../../features/modal/modalSlice';
 export type TodoItemProps = { tags: string[] } & Omit<Todo, 'tags'>;
 
 const statusBgColor = (status: TodoStatus) => {
@@ -40,6 +43,11 @@ export const TodoItem = (props: TodoItemProps) => {
   const truncatedTags = tags.slice(0, numberOfTagsLimit);
   const { isMobileView } = useResponsiveView();
   const viewMapping = isMobileView ? mobileViewMapping : desktopViewMapping;
+  const dispatch = useAppDispatch();
+  const onClick = () => {
+    dispatch(openModal({ Body: <UpdateTodoForm {...props} /> }));
+  };
+
   return (
     <Box
       alignContent={'center'}
@@ -58,7 +66,7 @@ export const TodoItem = (props: TodoItemProps) => {
         },
         cursor: 'pointer',
       }}
-      // onClick={onClick}
+      onClick={onClick}
     >
       <Grid container direction="row">
         <Grid item xs={viewMapping.name}>

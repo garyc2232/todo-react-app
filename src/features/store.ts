@@ -9,6 +9,8 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from '../const/localStorageKey';
 import { modalSlice } from './modal/modalSlice';
 import { tagSlice } from './tag/tagSlice';
 import { fetchTagAsync } from './tag/tagAction';
+import { statusSlice } from './status/statusSlice';
+import { fetchStatusAsync } from './status/statusAction';
 
 const errorHandlerMiddleware = (store) => (next) => async (action) => {
   if (action.error) {
@@ -33,6 +35,7 @@ export const setupStore = () =>
       sortOption: sortOptionSlice.reducer,
       modal: modalSlice.reducer,
       tag: tagSlice.reducer,
+      status: statusSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(
@@ -43,7 +46,10 @@ export const setupStore = () =>
 const store = setupStore();
 
 localStorage.getItem(REFRESH_TOKEN) && store.dispatch(refreshJwtAsync());
-localStorage.getItem(ACCESS_TOKEN) && store.dispatch(fetchTagAsync());
+if (localStorage.getItem(ACCESS_TOKEN)) {
+  store.dispatch(fetchTagAsync());
+  store.dispatch(fetchStatusAsync());
+}
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;

@@ -2,7 +2,11 @@ import {
   Autocomplete,
   Button,
   Container,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from '@mui/material';
 import { useFormik } from 'formik';
@@ -11,53 +15,64 @@ import { selectError } from '../../features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../features/store';
 import { closeModal } from '../../features/modal/modalSlice';
 import { useState } from 'react';
-import { TodoCreateDto } from '../../types/todo.type';
 import {
-  createTodoAsync,
+  deleteTodoAsync,
   fetchTodosAsync,
+  updateTodoAsync,
 } from '../../features/todo/todoAction';
 import { selectActiveListId } from '../../features/list/listSlice';
 import { formatDate } from '../../utils/dateUtil';
 import { selectTags } from '../../features/tag/tagSlice';
+import { TodoItemProps } from '../molecules/TodoItem';
+import { selectStatus } from '../../features/status/statusSlice';
 
-const initialValues: TodoCreateDto = {
-  name: '',
-  description: '',
-  dueDate: formatDate(new Date()),
-  priority: 1,
-  tags: [],
-};
-
-export const CreateTodoForm = () => {
+export const UpdateTodoForm = (props: TodoItemProps) => {
   const dispatch = useAppDispatch();
   const errMessage = useAppSelector(selectError);
   const listId = useAppSelector(selectActiveListId);
+  const status = useAppSelector(selectStatus);
   const tags = useAppSelector(selectTags);
   const [successMessage, setSuccessMessage] = useState('');
 
+  const handleOnDelete = async () => {
+    if (!listId) return;
+    await dispatch(deleteTodoAsync({ listId, todoId: props.id }));
+    await dispatch(fetchTodosAsync(listId));
+    setTimeout(() => {
+      dispatch(closeModal());
+    }, 500);
+  };
+
   const formik = useFormik({
-    initialValues,
+    initialValues: {
+      ...props,
+      dueDate: formatDate(new Date(props.dueDate)),
+      tags: tags.filter((t: any) => props.tags.includes(t.name)),
+      createAt: formatDate(new Date(props.createAt)),
+      status: status.filter((s: any) => s.name === props.status)[0].id,
+    },
     validationSchema: createTodoFormSchema,
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: async (values) => {
-      console.log(values, listId);
-
       if (!listId) return;
+
       const result = await dispatch(
-        createTodoAsync({
+        updateTodoAsync({
           listId,
+          todoId: props.id,
           data: {
             name: values.name,
             description: values.description,
             dueDate: values.dueDate,
             priority: values.priority,
-            tags: values.tags,
+            tags: values.tags.map((t: any) => t.id),
+            status: values.status,
           },
         }),
       );
       if (result) {
-        setSuccessMessage('Create Todo successfully');
+        setSuccessMessage('Update Todo successfully');
         dispatch(fetchTodosAsync(listId));
         setTimeout(() => {
           dispatch(closeModal());
@@ -100,7 +115,7 @@ export const CreateTodoForm = () => {
               margin="normal"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={2}>
             <TextField
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -118,7 +133,23 @@ export const CreateTodoForm = () => {
               }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={5}>
+            <TextField
+              type="datetime-local"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.createAt}
+              label="Create At"
+              name="createAt"
+              fullWidth
+              margin="normal"
+              disabled
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={5}>
             <TextField
               type="datetime-local"
               onChange={formik.handleChange}
@@ -136,6 +167,28 @@ export const CreateTodoForm = () => {
             {!!formik.errors.dueDate && (
               <div>{String(formik.errors.dueDate)}</div>
             )}
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="Status">Status</InputLabel>
+              <Select
+                labelId="Status"
+                id="Status"
+                value={formik.values.status}
+                label="Status"
+                onChange={(event) => {
+                  formik.setFieldValue('status', event.target.value);
+                }}
+                onBlur={formik.handleBlur}
+              >
+                {!!status &&
+                  status.map((s) => (
+                    <MenuItem key={s.id} value={s.id}>
+                      {s.name}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <Autocomplete
@@ -157,9 +210,19 @@ export const CreateTodoForm = () => {
               )}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary">
+          <Grid item xs={6}>
+            <Button type="submit" variant="contained" color="primary" fullWidth>
               Submit
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => handleOnDelete()}
+              fullWidth
+            >
+              Delete
             </Button>
           </Grid>
           <Grid item sm={12}>
@@ -168,7 +231,6 @@ export const CreateTodoForm = () => {
           </Grid>
         </Grid>
       </form>
-      {/* </Formik> */}
     </Container>
   );
 };

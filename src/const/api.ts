@@ -6,8 +6,11 @@ export const API = {
   SIGN_IN: `${BASE_URL}/auth/signIn`,
   REFRESH_JWT: `${BASE_URL}/auth/refresh`,
   USER: `${BASE_URL}/user`,
-  USER_LIST: (id: number) => `${BASE_URL}/user/${id}/list`,
-  LIST_TODO: (id: number) => `${BASE_URL}/list/${id}/todo`,
+  USER_LIST: (userId: number) => `${BASE_URL}/user/${userId}/list`,
+  LIST_TODOS: (listId: number) => `${BASE_URL}/list/${listId}/todo`,
+  LIST_TODO: (listId: number, todoId: number) =>
+    `${BASE_URL}/list/${listId}/todo/${todoId}`,
   LIST: `${BASE_URL}/list`,
   TAG: `${BASE_URL}/tag`,
+  STATUS: `${BASE_URL}/status`,
 };

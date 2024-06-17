@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Todo, TodoCreateDto } from '../../types/todo.type';
-import { createTodoAsync, fetchTodoAsync } from './todoAction';
-import { sortOption } from '../../types/sortOption.type';
+import { fetchTodosAsync } from './todoAction';
+import { SortOption } from '../../types/sortOption.type';
 
 type TodoState = {
   todos: Todo[];
@@ -21,24 +21,17 @@ export const todoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTodoAsync.pending, (state, _) => {
+      .addCase(fetchTodosAsync.pending, (state, _) => {
         state.isLoading = true;
       })
-      .addCase(fetchTodoAsync.fulfilled, (state, action) => {
+      .addCase(fetchTodosAsync.fulfilled, (state, action) => {
         state.todos = action.payload;
         state.isLoading = false;
-      })
-      .addCase(createTodoAsync.pending, (state, _) => {
-        state.isLoading = true;
-      })
-      .addCase(createTodoAsync.fulfilled, (_, __) => {
-        // state.todos = action.payload;
-        // state.isLoading = false;
       });
   },
 });
 
-export const selectTodos = (state, sortBy: sortOption = 'id', isASC = true) => {
+export const selectTodos = (state, sortBy: SortOption = 'id', isASC = true) => {
   const sortedTodos = [...state.todo.todos];
 
   // Sort the todos based on the selected field and sort order
