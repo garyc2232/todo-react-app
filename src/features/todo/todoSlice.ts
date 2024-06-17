@@ -29,6 +29,9 @@ export const todoSlice = createSlice({
         state.isLoading = false;
       });
   },
+  selectors: {
+    selectTodoIsLoading: (state) => state.isLoading,
+  },
 });
 
 export const selectTodos = (state, sortBy: SortOption = 'id', isASC = true) => {
@@ -54,5 +57,5 @@ export const selectTodos = (state, sortBy: SortOption = 'id', isASC = true) => {
 };
 
 export const {} = todoSlice.actions;
-// export const { selectTodos } = todoSlice.selectors;
+export const { selectTodoIsLoading } = todoSlice.selectors;
 export default todoSlice.reducer;
