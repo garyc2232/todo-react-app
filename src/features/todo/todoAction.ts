@@ -11,20 +11,23 @@ export const fetchTodoAsync = createAsyncThunk(
 
       return res.data;
     } catch (error: any) {
-      return rejectWithValue(error.response.data)
+      return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const createTodoAsync = createAsyncThunk(
   'list/createTodo',
-  async ({ listId, data }: { listId: number, data: TodoCreateDto }, { rejectWithValue }) => {
+  async (
+    { listId, data }: { listId: number; data: TodoCreateDto },
+    { rejectWithValue },
+  ) => {
     try {
       const res = await axiosInstance.post(API.LIST_TODO(listId), data);
 
       return res.data;
     } catch (error: any) {
-      return rejectWithValue(error.response.data)
+      return rejectWithValue(error.response.data);
     }
-  }
+  },
 );

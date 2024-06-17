@@ -10,7 +10,7 @@ export const fetchListAsync = createAsyncThunk(
 
       return res.data;
     } catch (error: any) {
-      return rejectWithValue(error.response.data)
+      return rejectWithValue(error.response.data);
     }
-  }
+  },
 );

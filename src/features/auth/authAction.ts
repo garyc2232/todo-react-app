@@ -8,28 +8,34 @@ export const loginAsync = createAsyncThunk(
   'auth/loginAsync',
   async (data: Omit<User, 'id'>, { rejectWithValue }) => {
     try {
-      const res = await axios.post(API.SIGN_IN, { name: data.userName, password: data.password });
-      console.log('login', res)
+      const res = await axios.post(API.SIGN_IN, {
+        name: data.userName,
+        password: data.password,
+      });
+      console.log('login', res);
       return res.data;
     } catch (error: any) {
-      console.log('login', error)
-      return rejectWithValue(error.response.data)
+      console.log('login', error);
+      return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const registerAsync = createAsyncThunk(
   'auth/registerAsync',
   async (data: Omit<User, 'id'>, { rejectWithValue }) => {
     try {
-      const res = await axios.post(API.USER, { name: data.userName, password: data.password });
-      console.log('registerAsync', res)
+      const res = await axios.post(API.USER, {
+        name: data.userName,
+        password: data.password,
+      });
+      console.log('registerAsync', res);
       return res.data;
     } catch (error: any) {
-      console.log('registerAsync', error)
-      return rejectWithValue(error.response.data)
+      console.log('registerAsync', error);
+      return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const refreshJwtAsync = createAsyncThunk(
@@ -42,11 +48,15 @@ export const refreshJwtAsync = createAsyncThunk(
         rejectWithValue('No refresh token');
       }
 
-      const res = await axios.post(API.REFRESH_JWT, {}, { headers: { Authorization: `Bearer ${rt}` } });
+      const res = await axios.post(
+        API.REFRESH_JWT,
+        {},
+        { headers: { Authorization: `Bearer ${rt}` } },
+      );
 
       return res.data;
     } catch (error: any) {
-      return rejectWithValue(error.response.data)
+      return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
