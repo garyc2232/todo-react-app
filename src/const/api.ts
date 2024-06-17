@@ -11,6 +11,7 @@ export const API = {
   LIST_TODO: (listId: number, todoId: number) =>
     `${BASE_URL}/list/${listId}/todo/${todoId}`,
   LIST: `${BASE_URL}/list`,
+  LISTS: (listId: number) => `${BASE_URL}/list/${listId}`,
   TAG: `${BASE_URL}/tag`,
   STATUS: `${BASE_URL}/status`,
 };

@@ -218,7 +218,7 @@ export const UpdateTodoForm = (props: TodoItemProps) => {
           <Grid item xs={6}>
             <Button
               variant="contained"
-              color="secondary"
+              color="error"
               onClick={() => handleOnDelete()}
               fullWidth
             >

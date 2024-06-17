@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchListAsync } from './listAction';
+import { createListAsync, fetchListAsync } from './listAction';
 
 type ListState = {
   lists: [];
@@ -23,6 +23,9 @@ export const listSlice = createSlice({
     builder.addCase(fetchListAsync.fulfilled, (state, action) => {
       state.lists = action.payload;
       state.activeListId = action.payload[0].id;
+    });
+    builder.addCase(createListAsync.fulfilled, (state, action) => {
+      state.activeListId = action.payload.id;
     });
   },
   selectors: {

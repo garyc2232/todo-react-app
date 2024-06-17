@@ -1,7 +1,7 @@
 import { Container, Grid } from '@mui/material';
 
 import { Header } from '../components/molecules/Header';
-import TodoPanel from '../components/molecules/TodoPanel';
+import TodoPanel from '../components/organisms/TodoPanel';
 import useResponsiveView from '../utils/customHook/useResponsiveView';
 
 const RightPanel = () => {

@@ -29,4 +29,15 @@ const createTodoFormSchema = object().shape({
     .required('Due Date is required'),
 });
 
-export { createTodoFormSchema, loginFormSchema, registerFormSchema };
+const createListFormSchema = object().shape({
+  name: string()
+    .required('Name is required')
+    .min(3, 'Name must be at least 3 characters'),
+});
+
+export {
+  createListFormSchema,
+  createTodoFormSchema,
+  loginFormSchema,
+  registerFormSchema,
+};

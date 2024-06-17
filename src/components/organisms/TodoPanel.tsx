@@ -7,7 +7,7 @@ import {
   selectTodoIsLoading,
   selectTodos,
 } from '../../features/todo/todoSlice';
-import { TodoItem, TodoItemProps } from '../../components/molecules/TodoItem';
+import { TodoItem, TodoItemProps } from '../molecules/TodoItem';
 import {
   selectIsAsc,
   selectSortBy,

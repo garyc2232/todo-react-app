@@ -1,12 +1,15 @@
 import { Container, Grid, IconButton, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useAppDispatch, useAppSelector } from '../../features/store';
+import { logout, selectUserName } from '../../features/auth/authSlice';
 
-interface WelcomeBlockProps {
-  userName: string;
-  handleLogout: () => void;
-}
+export const WelcomeBlock = () => {
+  const dispatch = useAppDispatch();
+  const userName = useAppSelector(selectUserName);
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
-export const WelcomeBlock = (props: WelcomeBlockProps) => {
   return (
     <Container
       sx={{
@@ -21,14 +24,14 @@ export const WelcomeBlock = (props: WelcomeBlockProps) => {
       }}
     >
       <Grid item xs={10}>
-        <Typography variant="h6">Welcome {props.userName}</Typography>
+        <Typography variant="h6">Welcome {userName}</Typography>
       </Grid>
       <Grid item xs={2}>
         <IconButton
           aria-label="logout"
           size="small"
           color="secondary"
-          onClick={() => props.handleLogout()}
+          onClick={() => handleLogout()}
         >
           <LogoutIcon fontSize="inherit" />
         </IconButton>
