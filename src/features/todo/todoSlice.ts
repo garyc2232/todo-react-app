@@ -34,7 +34,11 @@ export const todoSlice = createSlice({
   },
 });
 
-export const selectTodos = (state, sortBy: SortOption = 'id', isASC = true) => {
+export const selectTodos = (
+  state: any,
+  sortBy: SortOption = 'id',
+  isASC = true,
+) => {
   const sortedTodos = [...state.todo.todos];
 
   // Sort the todos based on the selected field and sort order

@@ -41,9 +41,8 @@ export const CreateTodoForm = () => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: async (values) => {
-      console.log(values, listId);
-
       if (!listId) return;
+
       const result = await dispatch(
         createTodoAsync({
           listId,

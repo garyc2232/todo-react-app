@@ -1,6 +1,12 @@
 import { Container, Grid, IconButton, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-export const WelcomeBlock = (props: any) => {
+
+interface WelcomeBlockProps {
+  userName: string;
+  handleLogout: () => void;
+}
+
+export const WelcomeBlock = (props: WelcomeBlockProps) => {
   return (
     <Container
       sx={{
