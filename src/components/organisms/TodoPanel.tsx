@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../features/store';
 import { fetchTodosAsync } from '../../features/todo/todoAction';
 import {
   selectTodoIsLoading,
-  selectTodos,
+  selectTodosWithFilter,
 } from '../../features/todo/todoSlice';
 import { TodoItem, TodoItemProps } from '../molecules/TodoItem';
 import {
@@ -19,7 +19,10 @@ const TodoPanel = () => {
   const sortBy = useAppSelector(selectSortBy);
   const isAsc = useAppSelector(selectIsAsc);
   const isTodoLoading = useAppSelector(selectTodoIsLoading);
-  const todos = useAppSelector((state) => selectTodos(state, sortBy, isAsc));
+  const filter = useAppSelector((state) => state.filter);
+  const todos = useAppSelector((state) =>
+    selectTodosWithFilter(state, sortBy, isAsc, filter),
+  );
   const activeListId = useAppSelector(selectActiveListId);
 
   useEffect(() => {

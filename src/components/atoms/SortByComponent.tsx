@@ -24,7 +24,6 @@ const SORT_OPTIONS: SortOption[] = [
 export const SortByComponent = () => {
   const selectedSortOption = useAppSelector(selectSortBy);
   const dispatch = useAppDispatch();
-  const { isMobileView } = useResponsiveView();
   const handleOptionChange = (event: SelectChangeEvent<SortOption>) => {
     dispatch(setSortBy(event.target.value));
   };

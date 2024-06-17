@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Todo, TodoCreateDto } from '../../types/todo.type';
 import { fetchTodosAsync } from './todoAction';
 import { SortOption } from '../../types/sortOption.type';
+import { FilterState } from '../filter/filterSlice';
 
 type TodoState = {
   todos: Todo[];
@@ -34,10 +35,11 @@ export const todoSlice = createSlice({
   },
 });
 
-export const selectTodos = (
+export const selectTodosWithFilter = (
   state: any,
   sortBy: SortOption = 'id',
   isASC = true,
+  filter: FilterState,
 ) => {
   const sortedTodos = [...state.todo.todos];
 
@@ -57,7 +59,30 @@ export const selectTodos = (
     return 0;
   });
 
-  return sortedTodos;
+  console.log('sortedTodos', sortedTodos);
+
+  let filteredTodos = sortedTodos;
+  if (!!filter.status) {
+    filteredTodos = sortedTodos.filter((todo) => todo.status === filter.status);
+  }
+  if (!!filter.name) {
+    filteredTodos = filteredTodos.filter((todo) =>
+      todo.name.includes(filter.name),
+    );
+  }
+  if (!!filter.priority && filter.priority !== 0) {
+    filteredTodos = filteredTodos.filter(
+      (todo) => todo.priority >= filter.priority,
+    );
+  }
+  if (!!filter.tags && filter.tags.length > 0) {
+    const filteredTagNames = filter.tags.map((tag) => tag.name);
+    filteredTodos = filteredTodos.filter((item) =>
+      item.tags.some((tag: any) => filteredTagNames.includes(tag)),
+    );
+  }
+
+  return filteredTodos;
 };
 
 export const {} = todoSlice.actions;

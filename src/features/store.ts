@@ -11,21 +11,23 @@ import { tagSlice } from './tag/tagSlice';
 import { fetchTagAsync } from './tag/tagAction';
 import { statusSlice } from './status/statusSlice';
 import { fetchStatusAsync } from './status/statusAction';
+import { filterSlice } from './filter/filterSlice';
 
-const errorHandlerMiddleware = (store) => (next) => async (action) => {
-  if (action.error) {
-    // Perform your custom error handling here
-    console.log('An error occurred:', action);
-    if (
-      action.payload?.statusCode === 401 &&
-      localStorage.getItem(REFRESH_TOKEN)
-    ) {
-      await store.dispatch(refreshJwtAsync());
+const errorHandlerMiddleware =
+  (store: any) => (next: any) => async (action: any) => {
+    if (action.error) {
+      // Perform your custom error handling here
+      console.log('An error occurred:', action);
+      if (
+        action.payload?.statusCode === 401 &&
+        localStorage.getItem(REFRESH_TOKEN)
+      ) {
+        await store.dispatch(refreshJwtAsync());
+      }
     }
-  }
 
-  return next(action);
-};
+    return next(action);
+  };
 export const setupStore = () =>
   configureStore({
     reducer: {
@@ -36,6 +38,7 @@ export const setupStore = () =>
       modal: modalSlice.reducer,
       tag: tagSlice.reducer,
       status: statusSlice.reducer,
+      filter: filterSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(
