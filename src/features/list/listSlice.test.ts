@@ -1,6 +1,5 @@
 import { describe, it } from 'node:test';
 import { expect, test } from 'vitest';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../const/localStorageKey';
 import { ListState, listSlice, setActiveListId } from './listSlice';
 import { fetchListAsync } from './listAction';
 

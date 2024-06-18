@@ -11,7 +11,6 @@ import {
   setSortBy,
 } from '../../features/sortOption/sortOptionSlice';
 import { SortOption } from '../../types/sortOption.type';
-import useResponsiveView from '../../utils/customHook/useResponsiveView';
 
 const SORT_OPTIONS: SortOption[] = [
   'id',
