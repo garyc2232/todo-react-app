@@ -9,8 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     threads: false,
-    watch: true,
-    // include: ['src/**/*.{js,tsx,ts}'],
+    watch: false,
     setupFiles: './tests/setup.ts',
   },
 });
