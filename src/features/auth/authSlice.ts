@@ -3,7 +3,7 @@ import { loginAsync, refreshJwtAsync, registerAsync } from './authAction';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../const/localStorageKey';
 import { User } from '../../types/user.type';
 
-type AuthState = {
+export type AuthState = {
   userId: User['id'] | null;
   userName: User['userName'] | null;
   isAuthenticated: boolean;

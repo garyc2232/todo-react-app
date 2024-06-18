@@ -1,4 +1,10 @@
-import { configureStore, Action, ThunkAction } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  Action,
+  ThunkAction,
+  combineReducers,
+  Reducer,
+} from '@reduxjs/toolkit';
 import { authSlice } from './auth/authSlice';
 import { refreshJwtAsync } from './auth/authAction';
 import { listSlice } from './list/listSlice';
@@ -28,25 +34,27 @@ const errorHandlerMiddleware =
 
     return next(action);
   };
-export const setupStore = () =>
+
+export const rootReducer = combineReducers({
+  auth: authSlice.reducer,
+  list: listSlice.reducer,
+  todo: todoSlice.reducer,
+  sortOption: sortOptionSlice.reducer,
+  modal: modalSlice.reducer,
+  tag: tagSlice.reducer,
+  status: statusSlice.reducer,
+  filter: filterSlice.reducer,
+});
+export const setupStore = (reducer: Reducer<any, any>) =>
   configureStore({
-    reducer: {
-      auth: authSlice.reducer,
-      list: listSlice.reducer,
-      todo: todoSlice.reducer,
-      sortOption: sortOptionSlice.reducer,
-      modal: modalSlice.reducer,
-      tag: tagSlice.reducer,
-      status: statusSlice.reducer,
-      filter: filterSlice.reducer,
-    },
+    reducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(
         errorHandlerMiddleware,
       ),
   });
 
-const store = setupStore();
+const store = setupStore(rootReducer);
 
 localStorage.getItem(REFRESH_TOKEN) && store.dispatch(refreshJwtAsync());
 if (localStorage.getItem(ACCESS_TOKEN)) {

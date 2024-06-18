@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createListAsync, fetchListAsync } from './listAction';
 
-type ListState = {
+export type ListState = {
   lists: [];
   activeListId: number | null;
 };

@@ -3,7 +3,7 @@ import { fetchStatusAsync } from './statusAction';
 
 import { Status } from '../../types/status.type';
 
-type StatusState = {
+export type StatusState = {
   status: Status[];
 };
 

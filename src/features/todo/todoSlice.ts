@@ -4,7 +4,7 @@ import { fetchTodosAsync } from './todoAction';
 import { SortOption } from '../../types/sortOption.type';
 import { FilterState } from '../filter/filterSlice';
 
-type TodoState = {
+export type TodoState = {
   todos: Todo[];
   isLoading: boolean;
   error?: string | null;
@@ -39,7 +39,7 @@ export const selectTodosWithFilter = (
   state: any,
   sortBy: SortOption = 'id',
   isASC = true,
-  filter: FilterState,
+  filter?: FilterState,
 ) => {
   const sortedTodos = [...state.todo.todos];
 
@@ -59,7 +59,9 @@ export const selectTodosWithFilter = (
     return 0;
   });
 
-  console.log('sortedTodos', sortedTodos);
+  if (!filter) {
+    return sortedTodos;
+  }
 
   let filteredTodos = sortedTodos;
   if (!!filter.status) {

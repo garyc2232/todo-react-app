@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchTagAsync } from './tagAction';
 import { Tag } from '../../types/tag.type';
 
-type TagState = {
+export type TagState = {
   tags: Tag[];
 };
 
