@@ -11,7 +11,7 @@ import { listSlice } from './list/listSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { todoSlice } from './todo/todoSlice';
 import { sortOptionSlice } from './sortOption/sortOptionSlice';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../const/localStorageKey';
+import { REFRESH_TOKEN } from '../const/localStorageKey';
 import { modalSlice } from './modal/modalSlice';
 import { tagSlice } from './tag/tagSlice';
 import { fetchTagAsync } from './tag/tagAction';
@@ -57,10 +57,9 @@ export const setupStore = (reducer: Reducer<any, any>) =>
 const store = setupStore(rootReducer);
 
 localStorage.getItem(REFRESH_TOKEN) && store.dispatch(refreshJwtAsync());
-if (localStorage.getItem(ACCESS_TOKEN)) {
-  store.dispatch(fetchTagAsync());
-  store.dispatch(fetchStatusAsync());
-}
+
+store.dispatch(fetchTagAsync());
+store.dispatch(fetchStatusAsync());
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
